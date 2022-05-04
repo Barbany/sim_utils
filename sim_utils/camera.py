@@ -1,7 +1,9 @@
 import numpy as np
 
 
-def get_camera_extrinsic_matrix_lookat(azimuth, distance, elevation, lookat):
+def get_camera_extrinsic_matrix_lookat(
+    azimuth: float, distance: float, elevation: float, lookat: np.ndarray
+) -> np.ndarray:
     """Get the camera extrinsic matrix converting world coordinates to the camera referential.
     Compute the parameters using a look at camera.
 
@@ -24,7 +26,9 @@ def get_camera_extrinsic_matrix_lookat(azimuth, distance, elevation, lookat):
     return np.c_[rotation_matrix, translation_vector]
 
 
-def get_camera_extrinsic_matrix_euler(cam_pos, cam_angles):
+def get_camera_extrinsic_matrix_euler(
+    cam_pos: np.ndarray, cam_angles: np.ndarray
+) -> np.ndarray:
     """Get the camera extrinsic matrix converting world coordinates to the camera referential.
     Compute the parameters using the euler angles and camera position.
 
@@ -46,7 +50,9 @@ def get_camera_extrinsic_matrix_euler(cam_pos, cam_angles):
     return rotation_matrix @ translation_matrix
 
 
-def get_camera_intrinsic_matrix(width, height, horizontal_fov=None, vertical_fov=None):
+def get_camera_intrinsic_matrix(
+    width: int, height: int, horizontal_fov: float = None, vertical_fov: float = None
+) -> np.ndarray:
     """Get the camera intrinsic matrix converting camera coordinates to image coordinates.
     If one of the fields of view is not specified, it will be computed using the image dimensions.
 
@@ -67,10 +73,10 @@ def get_camera_intrinsic_matrix(width, height, horizontal_fov=None, vertical_fov
             raise AttributeError("You must specify the FOV in one or the two axes")
         else:
 
-            horizontal_fov = 2.0 * np.arctan(np.tan(vertical_fov / 2) * height / width)
+            horizontal_fov = 2.0 * np.arctan(np.tan(vertical_fov / 2) * width / height)
     else:
         if vertical_fov is None:
-            vertical_fov = 2.0 * np.arctan(np.tan(horizontal_fov / 2) * width / height)
+            vertical_fov = 2.0 * np.arctan(np.tan(horizontal_fov / 2) * height / width)
 
     px, py = (width / 2, height / 2)
     fy = height / (2.0 * np.tan(vertical_fov / 2.0))
@@ -78,7 +84,7 @@ def get_camera_intrinsic_matrix(width, height, horizontal_fov=None, vertical_fov
     return np.array([[fx, 0, px], [0, fy, py], [0, 0, 1.0]])
 
 
-def get_rotation_matrix(angle, axis):
+def get_rotation_matrix(angle: float, axis: np.typing.ArrayLike) -> np.ndarray:
     """Get the rotation matrix encoding a rotation along an arbitrary axis.
 
     Args:
