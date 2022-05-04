@@ -1,8 +1,9 @@
-import numpy as np
 from typing import List, Tuple
 
+import numpy as np
 
-def get_angles_hemisphere(radius, n_views):
+
+def get_angles_hemisphere(radius: float, n_views: int) -> List[Tuple[float, float]]:
     """Sample points on the surface of a hemisphere and return a collection of azimuth and elevation angle pairs.
 
     References:

@@ -1,12 +1,17 @@
+from typing import Tuple
+
 import numpy as np
 from mujoco_py.cymj import PyMjvCamera
+
 from sim_utils.camera import (
     get_camera_extrinsic_matrix_lookat,
     get_camera_intrinsic_matrix,
 )
 
 
-def get_camera_transform_matrices(width, height, vertical_fov, camera: PyMjvCamera):
+def get_camera_transform_matrices(
+    width: int, height: int, vertical_fov: float, camera: PyMjvCamera
+) -> Tuple[np.ndarray, np.ndarray]:
     """Get the camera matrices from a mujoco_py camera converting world coordinates to image coordinates.
 
     Args:
