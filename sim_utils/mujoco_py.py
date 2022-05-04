@@ -1,6 +1,9 @@
 import numpy as np
 from mujoco_py.cymj import PyMjvCamera
-from sim_utils.camera import get_camera_extrinsic_matrix, get_camera_intrinsic_matrix
+from sim_utils.camera import (
+    get_camera_extrinsic_matrix_lookat,
+    get_camera_intrinsic_matrix,
+)
 
 
 def get_camera_transform_matrices(width, height, vertical_fov, camera: PyMjvCamera):
@@ -20,7 +23,7 @@ def get_camera_transform_matrices(width, height, vertical_fov, camera: PyMjvCame
         height=height,
         vertical_fov=np.radians(vertical_fov),
     )
-    extrinsic_matrix = get_camera_extrinsic_matrix(
+    extrinsic_matrix = get_camera_extrinsic_matrix_lookat(
         azimuth=np.radians(camera.azimuth),
         distance=camera.distance,
         elevation=np.radians(camera.elevation),
