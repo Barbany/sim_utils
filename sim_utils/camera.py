@@ -20,7 +20,8 @@ def get_camera_extrinsic_matrix_lookat(
     rotation_matrix = (
         get_rotation_matrix(np.pi, [0, 0, 1])
         @ get_rotation_matrix(elevation + np.pi / 2, [1, 0, 0])
-        @ get_rotation_matrix(azimuth, [0, 0, 1])
+        @ get_rotation_matrix(azimuth - np.pi / 2, [0, 0, 1])
+        @ get_rotation_matrix(np.pi, [0, 1, 0])
     )
     translation_vector = np.array([0, 0, distance]) - rotation_matrix @ lookat
     return np.c_[rotation_matrix, translation_vector]
@@ -45,9 +46,7 @@ def get_camera_extrinsic_matrix_euler(
     matrix1 = get_rotation_matrix(-cam_x_angle, [0, 1, 0])
     matrix2 = get_rotation_matrix(-cam_y_angle - np.pi, [1, 0, 0])
     rotation_matrix = matrix2 @ matrix1
-    translation_matrix = np.eye(4)
-    translation_matrix[0:3, 3] = -cam_pos
-    return rotation_matrix @ translation_matrix
+    return np.c_[rotation_matrix, -cam_pos]
 
 
 def get_camera_intrinsic_matrix(
@@ -84,12 +83,12 @@ def get_camera_intrinsic_matrix(
     return np.array([[fx, 0, px], [0, fy, py], [0, 0, 1.0]])
 
 
-def get_rotation_matrix(angle: float, axis: np.typing.ArrayLike) -> np.ndarray:
+def get_rotation_matrix(angle: float, axis) -> np.ndarray:
     """Get the rotation matrix encoding a rotation along an arbitrary axis.
 
     Args:
         angle (float): Angle of rotation in radians.
-        axis (np.typing.ArrayLike): Axis of rotation (possibly unnormalized).
+        axis (array-like): Axis of rotation (possibly unnormalized).
 
     Returns:
         np.ndarray: 3x3 rotation matrix.
