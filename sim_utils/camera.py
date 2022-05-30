@@ -4,7 +4,8 @@ import numpy as np
 def get_camera_extrinsic_matrix_lookat(
     azimuth: float, distance: float, elevation: float, lookat: np.ndarray
 ) -> np.ndarray:
-    """Get the camera extrinsic matrix converting world coordinates to the camera referential.
+    """Get the camera extrinsic matrix converting world coordinates to the camera referential
+    according to the OpenGL convention (see references).
     Compute the parameters using a look at camera.
 
     Args:
@@ -16,21 +17,26 @@ def get_camera_extrinsic_matrix_lookat(
 
     Returns:
         np.ndarray: 3x4 extrinsic matrix.
+
+    References:
+        https://learnopengl.com/Getting-started/Camera
     """
     rotation_matrix = (
         get_rotation_matrix(np.pi, [0, 0, 1])
         @ get_rotation_matrix(elevation + np.pi / 2, [1, 0, 0])
-        @ get_rotation_matrix(azimuth - np.pi / 2, [0, 0, 1])
-        @ get_rotation_matrix(np.pi, [0, 1, 0])
+        @ get_rotation_matrix(azimuth + np.pi / 2, [0, 0, 1])
     )
-    translation_vector = np.array([0, 0, distance]) - rotation_matrix @ lookat
+    # We want the lookat point to be [0, 0, -distance] w.r.t. the camera frame
+    # Note that in OpenGL convention, camera is pointing towards the -z axis.
+    translation_vector = np.array([0, 0, -distance]) - rotation_matrix @ lookat
     return np.c_[rotation_matrix, translation_vector]
 
 
 def get_camera_extrinsic_matrix_euler(
     cam_pos: np.ndarray, cam_angles: np.ndarray
 ) -> np.ndarray:
-    """Get the camera extrinsic matrix converting world coordinates to the camera referential.
+    """Get the camera extrinsic matrix converting world coordinates to the camera referential
+    according to the OpenGL convention (see references).
     Compute the parameters using the euler angles and camera position.
 
     Args:
@@ -41,6 +47,9 @@ def get_camera_extrinsic_matrix_euler(
 
     Returns:
         np.ndarray: Camera extrinsics matrix
+
+    References:
+        https://learnopengl.com/Getting-started/Camera
     """
     cam_x_angle, cam_y_angle, _ = cam_angles
     matrix1 = get_rotation_matrix(-cam_x_angle, [0, 1, 0])
