@@ -9,6 +9,7 @@ def project_points_to_image(
     extrinsics: np.ndarray,
     points: np.ndarray,
     image: np.ndarray,
+    c=None,
 ):
     """Project points to image given the camera intrinsic and extrinsic matrices.
 
@@ -21,7 +22,7 @@ def project_points_to_image(
     plt.imshow(image)
     proj_points = intr @ ext @ np.r_[points.T, np.ones((1, points.shape[0]))]
     proj_points = proj_points / proj_points[-1]
-    plt.scatter(proj_points[0], proj_points[1])
+    plt.scatter(proj_points[0], proj_points[1], c=c)
 
 
 def visualize_extrinsics(
