@@ -14,13 +14,15 @@ def project_points_to_image(
     """Project points to image given the camera intrinsic and extrinsic matrices.
 
     Args:
-       intrinsics (np.ndarray): 3x3 intrinsic camera matrix. 
-       extrinsics (np.ndarray): 3x4 extrinsic camera matrix. 
+       intrinsics (np.ndarray): 3x3 intrinsic camera matrix.
+       extrinsics (np.ndarray): 3x4 extrinsic camera matrix.
        points (np.ndarray): Nx3 array of points.
        image (np.ndarray): Image.
     """
     plt.imshow(image)
-    proj_points = intr @ ext @ np.r_[points.T, np.ones((1, points.shape[0]))]
+    proj_points = (
+        intrinsics @ extrinsics @ np.r_[points.T, np.ones((1, points.shape[0]))]
+    )
     proj_points = proj_points / proj_points[-1]
     plt.scatter(proj_points[0], proj_points[1], c=c)
 
