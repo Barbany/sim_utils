@@ -31,8 +31,8 @@ def get_camera_transform_matrices(
     # The transformation given by projection_matrix @ view_matrix yields [x, y, z, w]
     # w is the normalization factor and x/w and y/w are the normalized pixel
     # coordinates in [-1, 1]
-    # extra_matrix gets rid of z (depth unwanted) and scales pixel coordinates to
-    # [0, height/width] as well as flips the values along the horizontal axis
+    # extra_matrix gets rid of z (depth unwanted), scales pixel coordinates to
+    # [0, height/width], and flips the values along the horizontal axis
     extra_matrix = np.array(
         [[height / 2, 0, 0, height / 2], [0, -width / 2, 0, width / 2], [0, 0, 0, 1]]
     )
