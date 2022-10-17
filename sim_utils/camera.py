@@ -4,8 +4,8 @@ import numpy as np
 def get_camera_extrinsic_matrix_lookat(
     azimuth: float, distance: float, elevation: float, lookat: np.ndarray
 ) -> np.ndarray:
-    """Get the camera extrinsic matrix converting world coordinates to the camera referential
-    according to the OpenGL convention (see references).
+    """Get the camera extrinsic matrix converting world coordinates
+    to the camera referential according to the OpenGL convention (see references).
     Compute the parameters using a look at camera.
 
     Args:
@@ -35,15 +35,16 @@ def get_camera_extrinsic_matrix_lookat(
 def get_camera_extrinsic_matrix_euler(
     cam_pos: np.ndarray, cam_angles: np.ndarray
 ) -> np.ndarray:
-    """Get the camera extrinsic matrix converting world coordinates to the camera referential
-    according to the OpenGL convention (see references).
+    """Get the camera extrinsic matrix converting world coordinates to the
+    camera referential according to the OpenGL convention (see references).
     Compute the parameters using the euler angles and camera position.
 
     Args:
         cam_pos (np.ndarray): Position of the camera in terms of the world coordinates.
             NumPy array of shape 3 containing [x, y, z].
-        cam_angles (np.ndarray): Angle between each axis in the camera frame and the world frame.
-            NumPy array of shape 3 containing [cam_x_angle, cam_y_angle, cam_z_angle].
+        cam_angles (np.ndarray): Angle between each axis in the camera frame and
+            the world frame. NumPy array of shape 3 containing
+            [cam_x_angle, cam_y_angle, cam_z_angle].
 
     Returns:
         np.ndarray: Camera extrinsics matrix
@@ -61,8 +62,9 @@ def get_camera_extrinsic_matrix_euler(
 def get_camera_intrinsic_matrix(
     width: int, height: int, horizontal_fov: float = None, vertical_fov: float = None
 ) -> np.ndarray:
-    """Get the camera intrinsic matrix converting camera coordinates to image coordinates.
-    If one of the fields of view is not specified, it will be computed using the image dimensions.
+    """Get the camera intrinsic matrix converting camera coordinates
+    to image coordinates. If one of the fields of view is not specified,
+    it will be computed using the image dimensions.
 
     Args:
         width (int): Width of the rendered image.
