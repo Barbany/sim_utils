@@ -56,7 +56,7 @@ def get_camera_extrinsic_matrix_euler(
     matrix1 = get_rotation_matrix(-cam_x_angle, [0, 1, 0])
     matrix2 = get_rotation_matrix(-cam_y_angle - np.pi, [1, 0, 0])
     rotation_matrix = matrix2 @ matrix1
-    return np.c_[rotation_matrix, -cam_pos]
+    return np.c_[rotation_matrix, -rotation_matrix @ cam_pos]
 
 
 def get_camera_intrinsic_matrix(
